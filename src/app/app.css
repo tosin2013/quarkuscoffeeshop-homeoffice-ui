@@ -1,0 +1,17 @@
+html, body, #root {
+  height: 100%;
+}
+.menulogo {
+  display: inline;
+  float: left;
+  margin-left: 5px;
+  margin-top: 5px;
+}
+.menutitle {
+  text-align: right;
+  white-space: nowrap;
+  display: inline;
+  float: right;
+  margin-left: 10px;
+  font-size: large;
+}
