@@ -152,7 +152,7 @@ export class ServerComparisonChart extends React.Component {
                                 <ChartAxis dependentAxis showGrid />
                                 <ChartStack>
                                     {chartData.map((value, index) => {
-                                        return <ChartBar data={value} />
+                                        return <ChartBar key={index} data={value} />
                                     })}
 
                                 </ChartStack>
