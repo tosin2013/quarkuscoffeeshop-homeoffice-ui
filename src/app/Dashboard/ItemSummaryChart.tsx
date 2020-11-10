@@ -27,6 +27,15 @@ export class ItemSummaryChart extends React.Component {
       componentDidMount() {
         this.handleResize();
         window.addEventListener('resize', this.handleResize);
+
+        // send HTTP request
+        // save it to the state
+        fetch('')
+        .then(res => res.json())
+        .then((data) => {
+          this.setState({ savedData: data })
+        })
+        .catch(console.log)        
       }
     
       componentWillUnmount() {
@@ -36,7 +45,6 @@ export class ItemSummaryChart extends React.Component {
       render() {
         //const { width } = this.state;
         
-        // Note: Container order is important
         const CursorVoronoiContainer = createContainer("cursor", "voronoi");
         const legendData = [{ childName: 'coffee', name: 'Coffee' }, { childName: 'espresso', name: 'Espresso' }, { childName: 'food', name: 'Food' }];
         

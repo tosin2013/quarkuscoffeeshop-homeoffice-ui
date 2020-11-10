@@ -231,18 +231,18 @@ export class SystemComponents extends React.Component{
                     </Flex>
                   </DataListCell>,
                   <DataListCell key="barista inventory graph">
-                    <div style={{ height: '120px', width: '120px' }}>
+                    <div style={{ height: '140px', width: '140px' }}>
                       <ChartDonutUtilization
                         ariaDesc="Coffee Remaining"
                         ariaTitle="Coffee Remaining"
                         constrainToVisibleArea={true}
                         data={{ x: 'Coffee Remaining', y: coffeeRemaining }}
                         invert
-                        height={120}
+                        height={140}
                         subTitle="remaining"
                         title={`${coffeeRemaining}%`}
                         thresholds={[{ value: 30 }, { value: 20 }]}
-                        width={120}
+                        width={140}
                       />
                     </div>
                 </DataListCell>,                  
@@ -297,18 +297,18 @@ export class SystemComponents extends React.Component{
                     </Flex>
                   </DataListCell>,
                   <DataListCell key="kitchen inventory graph">
-                  <div style={{ height: '120px', width: '120px'}}>
+                  <div style={{ height: '140px', width: '140px'}}>
                     <ChartDonutUtilization
                       ariaDesc="Food Remaining"
                       ariaTitle="Food Remaining"
                       constrainToVisibleArea={true}
                       data={{ x: 'Food Remaining', y: foodRemaining }}
                       invert
-                      height={120}
+                      height={140}
                       subTitle="remaining"
                       title={`${foodRemaining}%`}
                       thresholds={[{ value: 50 }, { value: 25 }]}
-                      width={120}
+                      width={140}
                     />
                   </div>
                   </DataListCell>,

@@ -15,9 +15,12 @@ import {
     Chart, 
     ChartAxis, 
     ChartBar, 
-    ChartStack, 
+    ChartStack,
     ChartVoronoiContainer, 
-    ChartThemeColor 
+    ChartThemeColor,
+    ChartPoint,
+    ChartCursorFlyout,
+    ChartCursorTooltip
     } from '@patternfly/react-charts';
 
 import CaretDownIcon from '@patternfly/react-icons/dist/js/icons/caret-down-icon';
@@ -59,6 +62,17 @@ export class ServerComparisonChart extends React.Component {
             const element = document.getElementById('toggle-id');
             element.focus();
           };
+
+          this.baseStyles = { 
+            color: '#f0f0f0', 
+            fontFamily: 'RedHatText, Overpass, overpass, helvetica, arial, sans-serif',
+            fontSize: '14px'
+          };
+    }
+
+    componentDidMount() {
+        // send HTTP request
+        // save it to the state
     }
 
     render() {
@@ -124,6 +138,38 @@ export class ServerComparisonChart extends React.Component {
             dropdownItems.push(<DropdownItem key={store} component="button">{store}</DropdownItem>)
         });
 
+        // Custom HTML component to create a legend layout
+        const HtmlLegendContent = ({datum, legendData, text, theme, title, x, y, ...rest}) => (
+            <g>
+            <foreignObject height="100%" width="100%" x={x - 40} y={y - 45} >
+                <table>
+                <thead>
+                    <tr>
+                    <th colSpan={2} style={{...this.baseStyles, fontWeight: 700}}>{title(datum)}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {text.map((val, index) => (
+                    <tr key={`tbody-tr-${index}`} style={this.baseStyles}>
+                        <th width="20px">
+                        <svg height="9.74" width="9.74" role="img">
+                            {<ChartPoint x={0} y={0}
+                            style={{ fill: theme.legend.colorScale[index] }}
+                            symbol={legendData[index].symbol ? legendData[index].symbol.type : 'square'}
+                            size={10}
+                            />}
+                        </svg>
+                        </th>
+                        <td width="55px">{legendData[index].name}</td>
+                        <td style={{textAlign: 'right'}}>{val}</td>
+                    </tr>
+                    ))}
+                </tbody>
+                </table>
+            </foreignObject>
+            </g>
+        );
+
         const BasicRightAlignedLegend = (
             <Flex>
                 <FlexItem>
@@ -134,6 +180,21 @@ export class ServerComparisonChart extends React.Component {
                                 ariaDesc="Store and Server Sales"
                                 ariaTitle="Store and Server Sales"
                                 containerComponent={<ChartVoronoiContainer labels={({ datum }) => `${datum.server}: ${JSON.stringify(datum.tooltip)}`} constrainToVisibleArea />}
+/*
+                                containerComponent={<ChartVoronoiContainer 
+                                    labels={({ datum }) => `${datum.server}: ${JSON.stringify(datum.tooltip)}`} 
+                                    labelComponent={
+                                        <ChartCursorTooltip
+                                          centerOffset={{x: ({ center, flyoutWidth, width, offset = flyoutWidth / 2 + 10 }) => width > center.x + flyoutWidth + 10 ? offset : -offset}}
+                                          flyout={<ChartCursorFlyout />}
+                                          flyoutHeight={110}
+                                          flyoutWidth={125}
+                                          labelComponent={<HtmlLegendContent legendData={(datum) => datum.tooltip} title={(datum) => datum.server} />}
+                                        />
+                                      }
+                                      mouseFollowTooltips
+                                    constrainToVisibleArea />}
+*/
                                 themeColor={ChartThemeColor.multiOrdered}
                                 domainPadding={{ x: [30, 25] }}
                                 legendData={[{ name: 'Coffee' }, { name: 'Espresso' }, { name: 'Food' }]}
