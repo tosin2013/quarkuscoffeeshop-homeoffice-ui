@@ -9,6 +9,11 @@ import {
     Dropdown,
     DropdownToggle,
     DropdownItem,
+    DataList,
+    DataListItem,
+    DataListItemRow,
+    DataListItemCells,
+    DataListCell,
    } from '@patternfly/react-core';
 
 import { 
@@ -20,7 +25,8 @@ import {
     ChartThemeColor,
     ChartPoint,
     ChartCursorFlyout,
-    ChartCursorTooltip
+    ChartCursorTooltip,
+    ChartBullet
     } from '@patternfly/react-charts';
 
 import CaretDownIcon from '@patternfly/react-icons/dist/js/icons/caret-down-icon';
@@ -223,21 +229,41 @@ export class ServerComparisonChart extends React.Component {
                 </FlexItem>
                 <FlexItem>
                     <Card>
-                        <CardTitle>Store Details</CardTitle>
+                        <CardTitle>Average OrderUp Time</CardTitle>
                         <CardBody>
-                            <Dropdown
-                                onSelect={this.onSelect}
-                                toggle={
-                                <DropdownToggle id="toggle-id" onToggle={this.onToggle} toggleIndicator={CaretDownIcon}>
-                                    Dropdown
-                                </DropdownToggle>
-                                }
-                                isOpen={isDropDownOpen}
-                                dropdownItems={dropdownItems}
-                            />
+                            <div style={{ height: '150px', width: '500px' }}>
+                                <ChartBullet
+                                ariaDesc="Storage capacity"
+                                ariaTitle="Average OrderUp Time"
+                                comparativeWarningMeasureData={[{ name: 'Warning', y: 80 }]}
+                                comparativeErrorMeasureData={[{name: 'Terrible', y: 100}]}
+                                constrainToVisibleArea
+                                height={150}
+                                labels={({ datum }) => `${datum.name}: ${datum.y}`}
+                                maxDomain={{y: 120}}
+                                primarySegmentedMeasureData={[{ name: 'Measure', y: 60 }]}
+                                qualitativeRangeData={[{ name: 'Range', y: 50 }, { name: 'Range', y: 80 }]}
+                                width={500}
+                                />
+                        </div>
+                        <DataList aria-label="Objectives" isCompact="true">
+                            <DataListItem aria-labelledby="simple-item1">
+                            <DataListItemRow>
+                                <DataListItemCells
+                                dataListCells={[
+                                    <DataListCell key="primary content">
+                                    <span id="simple-item1">Excellent range is under 50 seconds</span>
+                                    </DataListCell>,
+                                    <DataListCell key="secondary content">Objective is under 80 seconds</DataListCell>
+                                ]}
+                                />
+                            </DataListItemRow>
+                            </DataListItem>
+                        </DataList>
                         </CardBody>
                     </Card>
                 </FlexItem>
+
             </Flex>
 
         ) 
