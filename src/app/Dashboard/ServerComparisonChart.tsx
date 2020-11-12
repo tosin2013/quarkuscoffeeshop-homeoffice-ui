@@ -85,19 +85,19 @@ export class ServerComparisonChart extends React.Component {
 
 
         const data=[
-            {store: "Store1", timePeriod: 16, server:"Paul", coffee: 26, espresso:6, food: 14 },
-            {store: "Store1", timePeriod: 16, server:"Tosin", coffee: 21, espresso:6, food: 18 },
-            {store: "Store1", timePeriod: 16, server:"Jeremy", coffee: 26, espresso:3, food: 15 },
+            {store: "Raleigh", timePeriod: 16, server:"Paul", coffee: 26, espresso:6, food: 14 },
+            {store: "Raleigh", timePeriod: 16, server:"Tosin", coffee: 21, espresso:6, food: 18 },
+            {store: "Raleigh", timePeriod: 16, server:"Jeremy", coffee: 26, espresso:3, food: 15 },
             
-            {store: "Store2", timePeriod: 16, server:"Jennifer", coffee: 26, espresso:6, food: 14 },
-            {store: "Store2", timePeriod: 16, server:"Mary", coffee: 21, espresso:9, food: 18 },
-            {store: "Store2", timePeriod: 16, server:"Ann", coffee: 26, espresso:3, food: 15 },
-            {store: "Store2", timePeriod: 16, server:"Jeff", coffee: 26, espresso:3, food: 15 },
+            {store: "Atlanta", timePeriod: 16, server:"Jennifer", coffee: 26, espresso:6, food: 14 },
+            {store: "Atlanta", timePeriod: 16, server:"Mary", coffee: 21, espresso:9, food: 18 },
+            {store: "Atlanta", timePeriod: 16, server:"Ann", coffee: 26, espresso:3, food: 15 },
+            {store: "Atlanta", timePeriod: 16, server:"Jeff", coffee: 26, espresso:3, food: 15 },
             
-            {store: "Store3", timePeriod: 16, server:"Rick", coffee: 21, espresso:9, food: 18 },
-            {store: "Store3", timePeriod: 16, server:"Morty", coffee: 26, espresso:3, food: 15 },
-            {store: "Store3", timePeriod: 16, server:"Jerry", coffee: 26, espresso:3, food: 15 },
-            {store: "Store3", timePeriod: 16, server:"Summer", coffee: 26, espresso:6, food: 14 },    
+            {store: "Charlotte", timePeriod: 16, server:"Rick", coffee: 21, espresso:9, food: 18 },
+            {store: "Charlotte", timePeriod: 16, server:"Morty", coffee: 26, espresso:3, food: 15 },
+            {store: "Charlotte", timePeriod: 16, server:"Jerry", coffee: 26, espresso:3, food: 15 },
+            {store: "Charlotte", timePeriod: 16, server:"Summer", coffee: 26, espresso:6, food: 14 },    
         ];
 
         data.forEach(server => server.total = server.coffee + server.espresso + server.food );
