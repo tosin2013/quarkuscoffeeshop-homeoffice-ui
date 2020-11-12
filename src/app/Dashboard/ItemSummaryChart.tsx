@@ -147,7 +147,7 @@ export class ItemSummaryChart extends React.Component {
                                 }}
                                 //maxDomain={{y: 50}}
                                 themeColor={ChartThemeColor.multiOrdered}
-                                width={700}
+                                width={600}
                             >
                                 <ChartAxis />
                                 <ChartAxis dependentAxis showGrid />

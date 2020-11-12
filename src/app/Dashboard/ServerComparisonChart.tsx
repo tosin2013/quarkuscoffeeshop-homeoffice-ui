@@ -179,7 +179,7 @@ export class ServerComparisonChart extends React.Component {
         const BasicRightAlignedLegend = (
             <Flex>
                 <FlexItem>
-                    <Card style={{ height: '300px', width: '600px' }}>
+                    <Card style={{ height: '300px', width: '500px' }}>
                         <CardTitle>Store and Server Sales</CardTitle>
                         <CardBody>
                             <Chart
@@ -213,7 +213,7 @@ export class ServerComparisonChart extends React.Component {
                                 right: 200, // Adjusted to accommodate legend
                                 top: 0
                                 }}
-                                width={600}
+                                width={500}
                             >
                                 <ChartAxis />
                                 <ChartAxis dependentAxis showGrid />
