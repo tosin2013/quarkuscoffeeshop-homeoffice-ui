@@ -56,11 +56,9 @@ export class WebItem extends React.Component {
               <DataListAction alignright="true">
                 <Stack>
                   <StackItem>
-                    <Button variant={ButtonVariant.secondary}>Secondary</Button>
+                    <Button variant={ButtonVariant.secondary}>Detail</Button>
                   </StackItem>
-                  <StackItem>
-                    <Button variant={ButtonVariant.link}>Link Button</Button>
-                  </StackItem>
+
                 </Stack>
               </DataListAction>
             ]}
