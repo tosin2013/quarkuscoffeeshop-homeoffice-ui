@@ -179,7 +179,7 @@ export class ServerComparisonChart extends React.Component {
         const BasicRightAlignedLegend = (
             <Flex>
                 <FlexItem>
-                    <Card style={{ height: '300px', width: '500px' }}>
+                    <Card style={{ height: '278px', width: '500px' }}>
                         <CardTitle>Store and Server Sales</CardTitle>
                         <CardBody>
                             <Chart
@@ -206,7 +206,7 @@ export class ServerComparisonChart extends React.Component {
                                 legendData={[{ name: 'Coffee' }, { name: 'Espresso' }, { name: 'Food' }]}
                                 legendOrientation="vertical"
                                 legendPosition="right"
-                                height={250}
+                                height={230}
                                 padding={{
                                 bottom: 50,
                                 left: 75,
@@ -252,7 +252,7 @@ export class ServerComparisonChart extends React.Component {
                                 <DataListItemCells
                                 dataListCells={[
                                     <DataListCell key="primary content">
-                                    <span id="simple-item1">Excellent range is under 50 seconds</span>
+                                    <span id="simple-item1">Excellent is under 50 seconds</span>
                                     </DataListCell>,
                                     <DataListCell key="secondary content">Objective is under 80 seconds</DataListCell>
                                 ]}
