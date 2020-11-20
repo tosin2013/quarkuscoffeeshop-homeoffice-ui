@@ -10,6 +10,26 @@ import {
 
 import { Chart, ChartArea, ChartAxis, ChartStack, ChartLegendTooltip, ChartThemeColor, ChartVoronoiContainer, ChartDonut, createContainer } from '@patternfly/react-charts';
 
+import { gql, useQuery } from '@apollo/client';
+
+const GET_ORDERS = gql`
+query orders {
+    orders {
+      id
+      locationId
+      lineItems {
+        id
+        item
+        price
+        preparedBy
+      }
+      total,
+      orderPlacedTimestamp,
+      orderCompletedTimestamp
+    }
+  }
+`;
+
 export class ItemSummaryChart extends React.Component {
     constructor(props) {
         super(props);
@@ -24,20 +44,12 @@ export class ItemSummaryChart extends React.Component {
         };
       }
     
+      
       componentDidMount() {
         this.handleResize();
         window.addEventListener('resize', this.handleResize);
-
-        // send HTTP request
-        // save it to the state
-        fetch('')
-        .then(res => res.json())
-        .then((data) => {
-          this.setState({ savedData: data })
-        })
-        .catch(console.log)        
       }
-    
+
       componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
       }
@@ -45,11 +57,15 @@ export class ItemSummaryChart extends React.Component {
       render() {
         //const { width } = this.state;
         
+        //const { error, data } = useQuery(GET_ORDERS);
+
+        //if (error) return <p>An error occured!</p>;
+        
         const CursorVoronoiContainer = createContainer("cursor", "voronoi");
         const legendData = [{ childName: 'coffee', name: 'Coffee' }, { childName: 'espresso', name: 'Espresso' }, { childName: 'food', name: 'Food' }];
         
 
-        const data=[
+        const localData=[
             {item:"Coffee", x: 'Saturday', y: 28 },
             {item:"Coffee", x: 'Sunday', y: 16 },
             {item:"Coffee", x: 'Monday', y: 12 },
@@ -73,17 +89,17 @@ export class ItemSummaryChart extends React.Component {
             {item:"Food", x: 'Friday', y: 20 }
             ];
 
-            const coffeeTransactions = data.filter(i => i.item == "Coffee");
+            const coffeeTransactions = localData.filter(i => i.item == "Coffee");
             const coffeeSum = coffeeTransactions
                         .map(i => i.y)
                         .reduce((prev, curr) => prev + curr, 0);
 
-            const espressoTransactions = data.filter(i => i.item == "Espresso");
+            const espressoTransactions = localData.filter(i => i.item == "Espresso");
             const espressoSum = espressoTransactions
                         .map(i => i.y)
                         .reduce((prev, curr) => prev + curr, 0);
                         
-            const foodTransactions = data.filter(i => i.item == "Food");
+            const foodTransactions = localData.filter(i => i.item == "Food");
             const foodSum = foodTransactions
                         .map(i => i.y)
                         .reduce((prev, curr) => prev + curr, 0);

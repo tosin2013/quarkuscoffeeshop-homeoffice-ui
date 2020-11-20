@@ -31,6 +31,9 @@ import {
 
 import CaretDownIcon from '@patternfly/react-icons/dist/js/icons/caret-down-icon';
 
+import { gql, useQuery } from '@apollo/client';
+import client from 'src/apolloclient.js'
+
 /*
 function getChartBar(store, serverRecords) {
     
@@ -74,6 +77,25 @@ export class ServerComparisonChart extends React.Component {
             fontFamily: 'RedHatText, Overpass, overpass, helvetica, arial, sans-serif',
             fontSize: '14px'
           };
+
+          const GET_STORESALES = gql`
+          query {
+              storeServerSalesByDate (startDate:"2020-11-18", endDate:"2020-11-20") {
+              server
+              store,
+              sales{
+                  item,
+                  sales,
+                  revenue
+              }
+              }
+          }
+          `;
+
+          client.query({
+            query: GET_STORESALES
+          }).then(response => 
+            console.log(response.data.feed))
     }
 
     componentDidMount() {
@@ -82,7 +104,6 @@ export class ServerComparisonChart extends React.Component {
     }
 
     render() {
-
 
         const data=[
             {store: "Raleigh", timePeriod: 16, server:"Paul", coffee: 26, espresso:6, food: 14 },
