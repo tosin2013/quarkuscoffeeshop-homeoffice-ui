@@ -13,3 +13,4 @@ npm run start:dev
 
         oc expose svc/quarkuscoffeeshop-homeoffice-ui
 test1
+test2
