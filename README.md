@@ -12,3 +12,4 @@ npm run start:dev
         --name=quarkuscoffeeshop-homeoffice-ui nodejs:latest~https://github.com/quarkuscoffeeshop/quarkuscoffeeshop-homeoffice-ui.git
 
         oc expose svc/quarkuscoffeeshop-homeoffice-ui
+test1
