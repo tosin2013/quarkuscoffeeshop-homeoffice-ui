@@ -34,6 +34,7 @@ import {
   ChartGroup,
   ChartArea,
   ChartVoronoiContainer,
+  ChartAxis,
  } from '@patternfly/react-charts';
 
 
@@ -192,10 +193,7 @@ export class SystemComponents extends React.Component{
                   <DataListAction alignright="true">
                     <Stack>
                       <StackItem>
-                        <Button variant={ButtonVariant.secondary}>Secondary</Button>
-                      </StackItem>
-                      <StackItem>
-                        <Button variant={ButtonVariant.link}>Link Button</Button>
+                        <Button variant={ButtonVariant.secondary}>Detail</Button>
                       </StackItem>
                     </Stack>
                   </DataListAction>
@@ -249,10 +247,7 @@ export class SystemComponents extends React.Component{
                   <DataListAction alignright="true">
                     <Stack>
                       <StackItem>
-                        <Button variant={ButtonVariant.secondary}>Secondary</Button>
-                      </StackItem>
-                      <StackItem>
-                        <Button variant={ButtonVariant.link}>Link Button</Button>
+                        <Button variant={ButtonVariant.secondary}>Detail</Button>
                       </StackItem>
                     </Stack>
                   </DataListAction>
@@ -315,10 +310,7 @@ export class SystemComponents extends React.Component{
                   <DataListAction alignright="true">
                     <Stack>
                       <StackItem>
-                        <Button variant={ButtonVariant.secondary}>Secondary</Button>
-                      </StackItem>
-                      <StackItem>
-                        <Button variant={ButtonVariant.link}>Link Button</Button>
+                        <Button variant={ButtonVariant.secondary}>Detail</Button>
                       </StackItem>
                     </Stack>
                   </DataListAction>
@@ -365,10 +357,10 @@ export class SystemComponents extends React.Component{
                   <DataListAction alignright="true">
                     <Stack>
                       <StackItem>
-                        <Button variant={ButtonVariant.secondary}>Re-Stock</Button>
+                        <Button variant={ButtonVariant.secondary}>Detail</Button>
                       </StackItem>
                       <StackItem>
-                        <Button variant={ButtonVariant.link}>Link Button</Button>
+                        <Button variant={ButtonVariant.secondary}>Re-Stock</Button>
                       </StackItem>
                     </Stack>
                   </DataListAction>

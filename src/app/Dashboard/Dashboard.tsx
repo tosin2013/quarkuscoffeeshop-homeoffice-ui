@@ -6,7 +6,16 @@ import {
     Text,
     TextContent,
     Divider,
+    Stack, 
+    StackItem,
+    LabelGroup,
+    Label
    } from '@patternfly/react-core';
+
+import { 
+  CheckCircleIcon,
+  InfoCircleIcon
+} from '@patternfly/react-icons';
 
 import { ItemSummaryChart } from './ItemSummaryChart';
 import { ServerComparisonChart } from './ServerComparisonChart'
@@ -20,17 +29,32 @@ export class Dashboard extends React.Component{
         return (
             <React.Fragment>
             <PageSection variant={PageSectionVariants.light}>
-              <TextContent>
-                <Text component="h1">Dashboard</Text>
-              </TextContent>
+
+            <Stack hasGutter>
+              <StackItem>
+                <TextContent>
+                  <Text component="h1">Dashboard</Text>
+                </TextContent>
+              </StackItem>
+              <StackItem>
+                <LabelGroup categoryName="Key Metrics">
+                  <Label icon={<CheckCircleIcon />} color="green">OrderUp</Label>
+                  <Label icon={<CheckCircleIcon />} color="green">Sales</Label>
+                  <Label icon={<CheckCircleIcon />} color="green">Inventory</Label>
+                </LabelGroup>
+              </StackItem>
+            </Stack>
+
+
+
             </PageSection>
             <Divider component="div" />
-            <PageSection variant={PageSectionVariants.light}>
-                <ItemSummaryChart />
+            <PageSection variant={PageSectionVariants.default}>
+              <ServerComparisonChart />
             </PageSection>
             <Divider component="div" />
-            <PageSection variant={PageSectionVariants.light}>
-                <ServerComparisonChart />
+            <PageSection variant={PageSectionVariants.default}>
+              <ItemSummaryChart />
             </PageSection>
         </React.Fragment>     
         )

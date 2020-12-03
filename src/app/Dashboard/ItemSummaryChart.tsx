@@ -10,6 +10,26 @@ import {
 
 import { Chart, ChartArea, ChartAxis, ChartStack, ChartLegendTooltip, ChartThemeColor, ChartVoronoiContainer, ChartDonut, createContainer } from '@patternfly/react-charts';
 
+import { gql, useQuery } from '@apollo/client';
+
+const GET_ORDERS = gql`
+query orders {
+    orders {
+      id
+      locationId
+      lineItems {
+        id
+        item
+        price
+        preparedBy
+      }
+      total,
+      orderPlacedTimestamp,
+      orderCompletedTimestamp
+    }
+  }
+`;
+
 export class ItemSummaryChart extends React.Component {
     constructor(props) {
         super(props);
@@ -24,20 +44,12 @@ export class ItemSummaryChart extends React.Component {
         };
       }
     
+      
       componentDidMount() {
         this.handleResize();
         window.addEventListener('resize', this.handleResize);
-
-        // send HTTP request
-        // save it to the state
-        fetch('')
-        .then(res => res.json())
-        .then((data) => {
-          this.setState({ savedData: data })
-        })
-        .catch(console.log)        
       }
-    
+
       componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
       }
@@ -45,44 +57,49 @@ export class ItemSummaryChart extends React.Component {
       render() {
         //const { width } = this.state;
         
+        //const { error, data } = useQuery(GET_ORDERS);
+
+        //if (error) return <p>An error occured!</p>;
+        
         const CursorVoronoiContainer = createContainer("cursor", "voronoi");
         const legendData = [{ childName: 'coffee', name: 'Coffee' }, { childName: 'espresso', name: 'Espresso' }, { childName: 'food', name: 'Food' }];
         
-        const data=[
+
+        const localData=[
+            {item:"Coffee", x: 'Saturday', y: 28 },
             {item:"Coffee", x: 'Sunday', y: 16 },
             {item:"Coffee", x: 'Monday', y: 12 },
             {item:"Coffee", x: 'Tuesday', y: 18 },
             {item:"Coffee", x: 'Wednesday', y: 15 },
             {item:"Coffee", x: 'Thursday', y: 16 },
-            {item:"Coffee", x: 'Friday', y: 20 },
-            {item:"Coffee", x: 'Saturday', y: 28 },
+            {item:"Coffee", x: 'Friday', y: 30 },
+            {item:"Espresso", x: 'Saturday', y: 5 },
             {item:"Espresso", x: 'Sunday', y: 4 },
             {item:"Espresso", x: 'Monday', y: 5 },
             {item:"Espresso", x: 'Tuesday', y: 7 },
             {item:"Espresso", x: 'Wednesday', y: 6 },
             {item:"Espresso", x: 'Thursday', y: 10 },
-            {item:"Espresso", x: 'Friday', y: 3 },
-            {item:"Espresso", x: 'Saturday', y: 5 },
+            {item:"Espresso", x: 'Friday', y: 13 },
+            {item:"Food", x: 'Saturday', y: 12 },
             {item:"Food", x: 'Sunday', y: 8 },
             {item:"Food", x: 'Monday', y: 18 },
             {item:"Food", x: 'Tuesday', y: 14 },
             {item:"Food", x: 'Wednesday', y: 8 },
             {item:"Food", x: 'Thursday', y: 6 },
-            {item:"Food", x: 'Friday', y: 8 },
-            {item:"Food", x: 'Saturday', y: 12 }
+            {item:"Food", x: 'Friday', y: 20 }
             ];
 
-            const coffeeTransactions = data.filter(i => i.item == "Coffee");
+            const coffeeTransactions = localData.filter(i => i.item == "Coffee");
             const coffeeSum = coffeeTransactions
                         .map(i => i.y)
                         .reduce((prev, curr) => prev + curr, 0);
 
-            const espressoTransactions = data.filter(i => i.item == "Espresso");
+            const espressoTransactions = localData.filter(i => i.item == "Espresso");
             const espressoSum = espressoTransactions
                         .map(i => i.y)
                         .reduce((prev, curr) => prev + curr, 0);
                         
-            const foodTransactions = data.filter(i => i.item == "Food");
+            const foodTransactions = localData.filter(i => i.item == "Food");
             const foodSum = foodTransactions
                         .map(i => i.y)
                         .reduce((prev, curr) => prev + curr, 0);
@@ -146,7 +163,7 @@ export class ItemSummaryChart extends React.Component {
                                 }}
                                 //maxDomain={{y: 50}}
                                 themeColor={ChartThemeColor.multiOrdered}
-                                width={700}
+                                width={600}
                             >
                                 <ChartAxis />
                                 <ChartAxis dependentAxis showGrid />

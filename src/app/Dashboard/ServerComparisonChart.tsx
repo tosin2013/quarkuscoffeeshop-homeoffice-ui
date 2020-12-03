@@ -9,6 +9,11 @@ import {
     Dropdown,
     DropdownToggle,
     DropdownItem,
+    DataList,
+    DataListItem,
+    DataListItemRow,
+    DataListItemCells,
+    DataListCell,
    } from '@patternfly/react-core';
 
 import { 
@@ -20,10 +25,14 @@ import {
     ChartThemeColor,
     ChartPoint,
     ChartCursorFlyout,
-    ChartCursorTooltip
+    ChartCursorTooltip,
+    ChartBullet
     } from '@patternfly/react-charts';
 
 import CaretDownIcon from '@patternfly/react-icons/dist/js/icons/caret-down-icon';
+
+import { gql, useQuery } from '@apollo/client';
+import client from 'src/apolloclient.js'
 
 /*
 function getChartBar(store, serverRecords) {
@@ -68,6 +77,25 @@ export class ServerComparisonChart extends React.Component {
             fontFamily: 'RedHatText, Overpass, overpass, helvetica, arial, sans-serif',
             fontSize: '14px'
           };
+
+          const GET_STORESALES = gql`
+          query {
+              storeServerSalesByDate (startDate:"2020-11-18", endDate:"2020-11-20") {
+              server
+              store,
+              sales{
+                  item,
+                  sales,
+                  revenue
+              }
+              }
+          }
+          `;
+
+          client.query({
+            query: GET_STORESALES
+          }).then(response => 
+            console.log(response.data.feed))
     }
 
     componentDidMount() {
@@ -77,21 +105,20 @@ export class ServerComparisonChart extends React.Component {
 
     render() {
 
-
         const data=[
-            {store: "Store1", timePeriod: 16, server:"Paul", coffee: 26, espresso:6, food: 14 },
-            {store: "Store1", timePeriod: 16, server:"Tosin", coffee: 21, espresso:6, food: 18 },
-            {store: "Store1", timePeriod: 16, server:"Jeremy", coffee: 26, espresso:3, food: 15 },
+            {store: "Raleigh", timePeriod: 16, server:"Paul", coffee: 26, espresso:6, food: 14 },
+            {store: "Raleigh", timePeriod: 16, server:"Tosin", coffee: 21, espresso:6, food: 18 },
+            {store: "Raleigh", timePeriod: 16, server:"Jeremy", coffee: 26, espresso:3, food: 15 },
             
-            {store: "Store2", timePeriod: 16, server:"Jennifer", coffee: 26, espresso:6, food: 14 },
-            {store: "Store2", timePeriod: 16, server:"Mary", coffee: 21, espresso:9, food: 18 },
-            {store: "Store2", timePeriod: 16, server:"Ann", coffee: 26, espresso:3, food: 15 },
-            {store: "Store2", timePeriod: 16, server:"Jeff", coffee: 26, espresso:3, food: 15 },
+            {store: "Atlanta", timePeriod: 16, server:"Jennifer", coffee: 26, espresso:6, food: 14 },
+            {store: "Atlanta", timePeriod: 16, server:"Mary", coffee: 21, espresso:9, food: 18 },
+            {store: "Atlanta", timePeriod: 16, server:"Ann", coffee: 26, espresso:3, food: 15 },
+            {store: "Atlanta", timePeriod: 16, server:"Jeff", coffee: 26, espresso:3, food: 15 },
             
-            {store: "Store3", timePeriod: 16, server:"Rick", coffee: 21, espresso:9, food: 18 },
-            {store: "Store3", timePeriod: 16, server:"Morty", coffee: 26, espresso:3, food: 15 },
-            {store: "Store3", timePeriod: 16, server:"Jerry", coffee: 26, espresso:3, food: 15 },
-            {store: "Store3", timePeriod: 16, server:"Summer", coffee: 26, espresso:6, food: 14 },    
+            {store: "Charlotte", timePeriod: 16, server:"Rick", coffee: 21, espresso:9, food: 18 },
+            {store: "Charlotte", timePeriod: 16, server:"Morty", coffee: 26, espresso:3, food: 15 },
+            {store: "Charlotte", timePeriod: 16, server:"Jerry", coffee: 26, espresso:3, food: 15 },
+            {store: "Charlotte", timePeriod: 16, server:"Summer", coffee: 26, espresso:6, food: 14 },    
         ];
 
         data.forEach(server => server.total = server.coffee + server.espresso + server.food );
@@ -173,7 +200,7 @@ export class ServerComparisonChart extends React.Component {
         const BasicRightAlignedLegend = (
             <Flex>
                 <FlexItem>
-                    <Card style={{ height: '300px', width: '600px' }}>
+                    <Card style={{ height: '278px', width: '500px' }}>
                         <CardTitle>Store and Server Sales</CardTitle>
                         <CardBody>
                             <Chart
@@ -200,14 +227,14 @@ export class ServerComparisonChart extends React.Component {
                                 legendData={[{ name: 'Coffee' }, { name: 'Espresso' }, { name: 'Food' }]}
                                 legendOrientation="vertical"
                                 legendPosition="right"
-                                height={250}
+                                height={230}
                                 padding={{
                                 bottom: 50,
                                 left: 75,
                                 right: 200, // Adjusted to accommodate legend
                                 top: 0
                                 }}
-                                width={600}
+                                width={500}
                             >
                                 <ChartAxis />
                                 <ChartAxis dependentAxis showGrid />
@@ -223,21 +250,41 @@ export class ServerComparisonChart extends React.Component {
                 </FlexItem>
                 <FlexItem>
                     <Card>
-                        <CardTitle>Store Details</CardTitle>
+                        <CardTitle>Average OrderUp Time</CardTitle>
                         <CardBody>
-                            <Dropdown
-                                onSelect={this.onSelect}
-                                toggle={
-                                <DropdownToggle id="toggle-id" onToggle={this.onToggle} toggleIndicator={CaretDownIcon}>
-                                    Dropdown
-                                </DropdownToggle>
-                                }
-                                isOpen={isDropDownOpen}
-                                dropdownItems={dropdownItems}
-                            />
+                            <div style={{ height: '150px', width: '500px' }}>
+                                <ChartBullet
+                                ariaDesc="Storage capacity"
+                                ariaTitle="Average OrderUp Time"
+                                comparativeWarningMeasureData={[{ name: 'Warning', y: 80 }]}
+                                comparativeErrorMeasureData={[{name: 'Terrible', y: 100}]}
+                                constrainToVisibleArea
+                                height={150}
+                                labels={({ datum }) => `${datum.name}: ${datum.y}`}
+                                maxDomain={{y: 120}}
+                                primarySegmentedMeasureData={[{ name: 'Measure', y: 60 }]}
+                                qualitativeRangeData={[{ name: 'Range', y: 50 }, { name: 'Range', y: 80 }]}
+                                width={500}
+                                />
+                        </div>
+                        <DataList aria-label="Objectives" isCompact="true">
+                            <DataListItem aria-labelledby="simple-item1">
+                            <DataListItemRow>
+                                <DataListItemCells
+                                dataListCells={[
+                                    <DataListCell key="primary content">
+                                    <span id="simple-item1">Excellent is under 50 seconds</span>
+                                    </DataListCell>,
+                                    <DataListCell key="secondary content">Objective is under 80 seconds</DataListCell>
+                                ]}
+                                />
+                            </DataListItemRow>
+                            </DataListItem>
+                        </DataList>
                         </CardBody>
                     </Card>
                 </FlexItem>
+
             </Flex>
 
         ) 

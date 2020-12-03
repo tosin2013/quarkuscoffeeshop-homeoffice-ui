@@ -9,10 +9,12 @@ import {
   PageHeader,
   PageSidebar,
   SkipToContent,
-  Text
+  Text,
+  PageHeaderTools
 } from '@patternfly/react-core';
 import { routes, IAppRoute, IAppRouteGroup } from '@app/routes';
 import logo from '@app/images/coffee-16x16.png';
+import packageJson from '/package.json';
 
 interface IAppLayout {
   children: React.ReactNode;
@@ -52,6 +54,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({children}) => {
   const Header = (
     <PageHeader
       logo={<LogoImg />}
+      headerTools={<PageHeaderTools>Release {packageJson.version}</PageHeaderTools>}
       showNavToggle
       isNavOpen={isNavOpen}
       onNavToggle={isMobileView ? onNavToggleMobile : onNavToggle}
