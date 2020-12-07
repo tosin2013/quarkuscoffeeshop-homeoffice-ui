@@ -34,42 +34,13 @@ import CaretDownIcon from '@patternfly/react-icons/dist/js/icons/caret-down-icon
 import { gql, useQuery } from '@apollo/client';
 import client from 'src/apolloclient.js'
 
-/*
-function getChartBar(store, serverRecords) {
-    
-    const data = [];
-
-    serverRecords.forEach(element => {
-        data.push({x: element.store, timePeriod: element.timePeriod, server: element.server, y: element.total});
-    });
-
-    return (
-        <ChartBar data={data} />
-    );
-}
-*/
-
 export class ServerComparisonChart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isDropDownOpen: false
-          };
-          this.onToggle = isDropDownOpen => {
-            this.setState({
-                isDropDownOpen
-            });
-          };
-          this.onSelect = event => {
-            this.setState({
-                isDropDownOpen: !this.state.isDropDownOpen
-            });
-            console.log("Selected: " + event.target.innerText);
-            this.onFocus();
-          };
-          this.onFocus = () => {
-            const element = document.getElementById('toggle-id');
-            element.focus();
+            data: [],
+            chartData: [],
+            productLegend: []
           };
 
           this.baseStyles = { 
@@ -78,9 +49,17 @@ export class ServerComparisonChart extends React.Component {
             fontSize: '14px'
           };
 
+          const endingDate = new Date();
+          endingDate.setDate(endingDate.getDate() + 1);
+          const endDateString = endingDate.toISOString().slice(0,10);
+  
+          endingDate.setDate(endingDate.getDate() - 7);
+          const startDateString = endingDate.toISOString().slice(0,10);
+          
+  
           const GET_STORESALES = gql`
-          query {
-              storeServerSalesByDate (startDate:"2020-11-18", endDate:"2020-11-20") {
+          query StoreSales($startDate: String!, $endDate: String!){
+              storeServerSalesByDate (startDate: $startDate, endDate: $endDate) {
               server
               store,
               sales{
@@ -92,124 +71,100 @@ export class ServerComparisonChart extends React.Component {
           }
           `;
 
-          client.query({
-            query: GET_STORESALES
-          }).then(response => 
-            console.log(response.data.feed))
+          console.log("Making GraphQL Request")
+          client.query({ 
+              query: GET_STORESALES , 
+              variables: {startDate: startDateString, endDate: endDateString}
+            })
+            .then(response => {
+                //console.log(response.data.storeServerSalesByDate);
+
+                console.log("Processing GraphQL Response")
+                this.ProcessGraphqlData(response.data.storeServerSalesByDate)
+                
+            }
+          )
+
     }
 
-    componentDidMount() {
-        // send HTTP request
-        // save it to the state
-    }
+    ProcessGraphqlData(data){
 
-    render() {
-
-        const data=[
-            {store: "Raleigh", timePeriod: 16, server:"Paul", coffee: 26, espresso:6, food: 14 },
-            {store: "Raleigh", timePeriod: 16, server:"Tosin", coffee: 21, espresso:6, food: 18 },
-            {store: "Raleigh", timePeriod: 16, server:"Jeremy", coffee: 26, espresso:3, food: 15 },
+        function flatten(arr) {
+            return [].concat(...arr)
+        }
             
-            {store: "Atlanta", timePeriod: 16, server:"Jennifer", coffee: 26, espresso:6, food: 14 },
-            {store: "Atlanta", timePeriod: 16, server:"Mary", coffee: 21, espresso:9, food: 18 },
-            {store: "Atlanta", timePeriod: 16, server:"Ann", coffee: 26, espresso:3, food: 15 },
-            {store: "Atlanta", timePeriod: 16, server:"Jeff", coffee: 26, espresso:3, food: 15 },
-            
-            {store: "Charlotte", timePeriod: 16, server:"Rick", coffee: 21, espresso:9, food: 18 },
-            {store: "Charlotte", timePeriod: 16, server:"Morty", coffee: 26, espresso:3, food: 15 },
-            {store: "Charlotte", timePeriod: 16, server:"Jerry", coffee: 26, espresso:3, food: 15 },
-            {store: "Charlotte", timePeriod: 16, server:"Summer", coffee: 26, espresso:6, food: 14 },    
-        ];
-
-        data.forEach(server => server.total = server.coffee + server.espresso + server.food );
-
         const stores = Array.from(new Set(data.map(item => item.store)))
 
-        const chartData = [[],[],[]];
+        const allItemSales = flatten(data.map(server => server.sales));
+
+        //calculate a unique list of products
+        const products = Array.from(new Set(allItemSales.map(i => i.item)));
+
+        const productLegend = new Array();
+        products.forEach(product => {
+            productLegend.push({name: product})
+        });
+
+        //initialize a 2 dimensional array for product sales [product, [store sales, store sales]]
+        const chartData = Array.from(Array(products.length), () => new Array())
         
         stores.forEach( function(store){
             const storeRecords = data.filter(i => i.store == store);
 
-            const coffeeSum = storeRecords.map(i => i.coffee).reduce((prev, curr) => prev + curr, 0);
-            const espressoSum = storeRecords.map(i => i.espresso).reduce((prev, curr) => prev + curr, 0);
-            const foodSum = storeRecords.map(i => i.food).reduce((prev, curr) => prev + curr, 0);
+            //get a flat list of all sales for store
+            const storeItemSales = flatten(storeRecords.map(server => server.sales));
+            
+            //sum the product information for each store
+            for (let index = 0; index < products.length; index++) {
+                const product = products[index];
+                    //sum the sales and revenue
+                    const itemSales = storeItemSales.filter(i => i.item == product).reduce((prev, curr) => prev + curr.sales, 0);
+                    const itemRevenue = storeItemSales.filter(i => i.item == product).reduce((prev, curr) => prev + curr.revenue, 0);
 
+                    //add it to the chart data set
+                    chartData[index].push({name: product, x: store, y: itemSales, tooltip: "Revenue: " + itemRevenue});            
+                
+            }
 
-            //Build the Tooltips showing servers at each store
-            const coffeeTooltip = [];
-            storeRecords.forEach(record => {
-                coffeeTooltip.push({server: record.server, coffee: record.coffee});
-            });
-
-            const espressoTooltip = [];
-            storeRecords.forEach(record => {
-                espressoTooltip.push({server: record.server, espresso: record.espresso});
-            });
-
-            const foodTooltip = [];
-            storeRecords.forEach(record => {
-                foodTooltip.push({server: record.server, food: record.food});
-            });
-
-            //data for each ChartBar
-            chartData[0].push({name: "Coffee", x: store, y: coffeeSum, tooltip: coffeeTooltip});
-            chartData[1].push({name: "Espresso", x: store, y: espressoSum, tooltip: espressoTooltip});
-            chartData[2].push({name: "Food", x: store, y: foodSum, tooltip: foodTooltip});
         });
+        this.setState({products:products});
+        this.setState({productLegend:productLegend})
+        this.setState({chartData:chartData});
+    }
 
+    componentDidMount() {
 
+    }
 
-        const { isDropDownOpen } = this.state;
-        const dropdownItems = [];
-        stores.forEach( function(store){
-            dropdownItems.push(<DropdownItem key={store} component="button">{store}</DropdownItem>)
-        });
+    
+    render() {
+        console.log("Rendering")
 
-        // Custom HTML component to create a legend layout
-        const HtmlLegendContent = ({datum, legendData, text, theme, title, x, y, ...rest}) => (
-            <g>
-            <foreignObject height="100%" width="100%" x={x - 40} y={y - 45} >
-                <table>
-                <thead>
-                    <tr>
-                    <th colSpan={2} style={{...this.baseStyles, fontWeight: 700}}>{title(datum)}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {text.map((val, index) => (
-                    <tr key={`tbody-tr-${index}`} style={this.baseStyles}>
-                        <th width="20px">
-                        <svg height="9.74" width="9.74" role="img">
-                            {<ChartPoint x={0} y={0}
-                            style={{ fill: theme.legend.colorScale[index] }}
-                            symbol={legendData[index].symbol ? legendData[index].symbol.type : 'square'}
-                            size={10}
-                            />}
-                        </svg>
-                        </th>
-                        <td width="55px">{legendData[index].name}</td>
-                        <td style={{textAlign: 'right'}}>{val}</td>
-                    </tr>
-                    ))}
-                </tbody>
-                </table>
-            </foreignObject>
-            </g>
-        );
+        //get data from state
+        const products = this.state.products;
+        const chartData = this.state.chartData;
+        const productLegend = this.state.productLegend;
 
         const BasicRightAlignedLegend = (
             <Flex>
                 <FlexItem>
-                    <Card style={{ height: '278px', width: '500px' }}>
+                    <Card style={{ height: '300px', width: '500px' }}>
                         <CardTitle>Store and Server Sales</CardTitle>
                         <CardBody>
                             <Chart
                                 ariaDesc="Store and Server Sales"
                                 ariaTitle="Store and Server Sales"
-                                containerComponent={<ChartVoronoiContainer labels={({ datum }) => `${datum.server}: ${JSON.stringify(datum.tooltip)}`} constrainToVisibleArea />}
+                                containerComponent={
+                                <ChartVoronoiContainer 
+                                    labels={({ datum }) => `${datum.name}: ${JSON.stringify(datum.tooltip)}`} 
+                                    constrainToVisibleArea
+                                    disable
+                                />}
 /*
+                                    labels={({ datum }) => `${datum.name}: ${datum.y}`} 
+
                                 containerComponent={<ChartVoronoiContainer 
-                                    labels={({ datum }) => `${datum.server}: ${JSON.stringify(datum.tooltip)}`} 
+                                    labels={({ datum }) => `${datum.name}: ${JSON.stringify(datum.tooltip)}`} 
                                     labelComponent={
                                         <ChartCursorTooltip
                                           centerOffset={{x: ({ center, flyoutWidth, width, offset = flyoutWidth / 2 + 10 }) => width > center.x + flyoutWidth + 10 ? offset : -offset}}
@@ -222,20 +177,22 @@ export class ServerComparisonChart extends React.Component {
                                       mouseFollowTooltips
                                     constrainToVisibleArea />}
 */
-                                themeColor={ChartThemeColor.multiOrdered}
-                                domainPadding={{ x: [30, 25] }}
-                                legendData={[{ name: 'Coffee' }, { name: 'Espresso' }, { name: 'Food' }]}
-                                legendOrientation="vertical"
-                                legendPosition="right"
-                                height={230}
-                                padding={{
-                                bottom: 50,
-                                left: 75,
-                                right: 200, // Adjusted to accommodate legend
-                                top: 0
-                                }}
-                                width={500}
-                            >
+
+                                    themeColor={ChartThemeColor.multiOrdered}
+                                    domainPadding={{ x: [30, 25] }}
+                                    //legendData={[{ name: 'Coffee' }, { name: 'Espresso' }, { name: 'Food' }]}
+                                    legendData={productLegend}
+                                    legendOrientation="vertical"
+                                    legendPosition="right"
+                                    height={250}
+                                    padding={{
+                                        bottom: 50,
+                                        left: 75,
+                                        right: 200, // Adjusted to accommodate legend
+                                        top: 0
+                                        }}
+                                    width={500}
+                                >
                                 <ChartAxis />
                                 <ChartAxis dependentAxis showGrid />
                                 <ChartStack>
@@ -252,14 +209,14 @@ export class ServerComparisonChart extends React.Component {
                     <Card>
                         <CardTitle>Average OrderUp Time</CardTitle>
                         <CardBody>
-                            <div style={{ height: '150px', width: '500px' }}>
+                            <div style={{ height: '172px', width: '500px' }}>
                                 <ChartBullet
                                 ariaDesc="Storage capacity"
                                 ariaTitle="Average OrderUp Time"
                                 comparativeWarningMeasureData={[{ name: 'Warning', y: 80 }]}
                                 comparativeErrorMeasureData={[{name: 'Terrible', y: 100}]}
                                 constrainToVisibleArea
-                                height={150}
+                                height={172}
                                 labels={({ datum }) => `${datum.name}: ${datum.y}`}
                                 maxDomain={{y: 120}}
                                 primarySegmentedMeasureData={[{ name: 'Measure', y: 60 }]}

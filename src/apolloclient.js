@@ -6,6 +6,9 @@ const link = new HttpLink({ uri: 'http://0.0.0.0:8080/graphql' })
 const cache = new InMemoryCache()
 const client = new ApolloClient({
   link,
-  cache
+  cache,
+  fetchOptions: {
+    mode: 'no-cors',
+  },
 })
 export default client
