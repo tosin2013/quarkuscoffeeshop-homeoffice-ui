@@ -9,7 +9,9 @@ import {
     Stack, 
     StackItem,
     LabelGroup,
-    Label
+    Label,
+    Flex,
+    FlexItem,
    } from '@patternfly/react-core';
 
 import { 
@@ -19,6 +21,7 @@ import {
 
 import { ItemSummaryChart } from './ItemSummaryChart';
 import { ServerComparisonChart } from './ServerComparisonChart'
+import { AverageOrderTimeChart } from './AverageOrderTimeChart'
 
 export class Dashboard extends React.Component{
     constructor(props) {
@@ -50,7 +53,17 @@ export class Dashboard extends React.Component{
             </PageSection>
             <Divider component="div" />
             <PageSection variant={PageSectionVariants.default}>
-              <ServerComparisonChart />
+            <Flex>
+            
+                <FlexItem>
+                  <ServerComparisonChart />
+                </FlexItem>
+
+                <FlexItem>
+                  <AverageOrderTimeChart />
+                </FlexItem>
+                
+            </Flex>
             </PageSection>
             <Divider component="div" />
             <PageSection variant={PageSectionVariants.default}>

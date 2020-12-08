@@ -4,16 +4,6 @@ import {
     Card,
     CardBody,
     CardTitle,
-    Flex,
-    FlexItem,
-    Dropdown,
-    DropdownToggle,
-    DropdownItem,
-    DataList,
-    DataListItem,
-    DataListItemRow,
-    DataListItemCells,
-    DataListCell,
    } from '@patternfly/react-core';
 
 import { 
@@ -23,10 +13,6 @@ import {
     ChartStack,
     ChartVoronoiContainer, 
     ChartThemeColor,
-    ChartPoint,
-    ChartCursorFlyout,
-    ChartCursorTooltip,
-    ChartBullet
     } from '@patternfly/react-charts';
 
 import CaretDownIcon from '@patternfly/react-icons/dist/js/icons/caret-down-icon';
@@ -138,16 +124,12 @@ export class ServerComparisonChart extends React.Component {
 
     
     render() {
-        console.log("Rendering")
-
         //get data from state
         const products = this.state.products;
         const chartData = this.state.chartData;
         const productLegend = this.state.productLegend;
 
         const BasicRightAlignedLegend = (
-            <Flex>
-                <FlexItem>
                     <Card style={{ height: '300px', width: '500px' }}>
                         <CardTitle>Store and Server Sales</CardTitle>
                         <CardBody>
@@ -204,46 +186,6 @@ export class ServerComparisonChart extends React.Component {
                             </Chart>
                         </CardBody>
                     </Card>
-                </FlexItem>
-                <FlexItem>
-                    <Card>
-                        <CardTitle>Average OrderUp Time</CardTitle>
-                        <CardBody>
-                            <div style={{ height: '172px', width: '500px' }}>
-                                <ChartBullet
-                                ariaDesc="Storage capacity"
-                                ariaTitle="Average OrderUp Time"
-                                comparativeWarningMeasureData={[{ name: 'Warning', y: 80 }]}
-                                comparativeErrorMeasureData={[{name: 'Terrible', y: 100}]}
-                                constrainToVisibleArea
-                                height={172}
-                                labels={({ datum }) => `${datum.name}: ${datum.y}`}
-                                maxDomain={{y: 120}}
-                                primarySegmentedMeasureData={[{ name: 'Measure', y: 60 }]}
-                                qualitativeRangeData={[{ name: 'Range', y: 50 }, { name: 'Range', y: 80 }]}
-                                width={500}
-                                />
-                        </div>
-                        <DataList aria-label="Objectives" isCompact="true">
-                            <DataListItem aria-labelledby="simple-item1">
-                            <DataListItemRow>
-                                <DataListItemCells
-                                dataListCells={[
-                                    <DataListCell key="primary content">
-                                    <span id="simple-item1">Excellent is under 50 seconds</span>
-                                    </DataListCell>,
-                                    <DataListCell key="secondary content">Objective is under 80 seconds</DataListCell>
-                                ]}
-                                />
-                            </DataListItemRow>
-                            </DataListItem>
-                        </DataList>
-                        </CardBody>
-                    </Card>
-                </FlexItem>
-
-            </Flex>
-
         ) 
         return BasicRightAlignedLegend;
     }
