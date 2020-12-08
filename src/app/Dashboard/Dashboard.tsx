@@ -19,6 +19,7 @@ import {
   InfoCircleIcon
 } from '@patternfly/react-icons';
 
+import { ItemSalesChart } from './ItemSalesChart';
 import { ItemSummaryChart } from './ItemSummaryChart';
 import { ServerComparisonChart } from './ServerComparisonChart'
 import { AverageOrderTimeChart } from './AverageOrderTimeChart'
@@ -62,12 +63,19 @@ export class Dashboard extends React.Component{
                 <FlexItem>
                   <AverageOrderTimeChart />
                 </FlexItem>
-                
+
             </Flex>
             </PageSection>
             <Divider component="div" />
             <PageSection variant={PageSectionVariants.default}>
-              <ItemSummaryChart />
+            <Flex justifyContent={{default:"justifyContentFlexStart"}} alignItems={{default:"alignItemsFlexStart"}}>
+                <FlexItem>
+                </FlexItem>
+                  <ItemSalesChart />
+                <FlexItem>
+                  <ItemSummaryChart />
+                </FlexItem>
+            </Flex>
             </PageSection>
         </React.Fragment>     
         )

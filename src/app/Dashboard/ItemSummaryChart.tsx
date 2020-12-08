@@ -1,14 +1,20 @@
 import React from 'react';
 
 import {
-    Flex,
-    FlexItem,
     Card,
     CardBody,
     CardTitle
    } from '@patternfly/react-core';
 
-import { Chart, ChartArea, ChartAxis, ChartStack, ChartLegendTooltip, ChartThemeColor, ChartVoronoiContainer, ChartDonut, createContainer } from '@patternfly/react-charts';
+import { 
+  Chart, 
+  ChartArea, 
+  ChartAxis, 
+  ChartStack, 
+  ChartLegendTooltip, 
+  ChartThemeColor, 
+  createContainer 
+} from '@patternfly/react-charts';
 
 import { gql, useQuery } from '@apollo/client';
 
@@ -105,37 +111,6 @@ export class ItemSummaryChart extends React.Component {
                         .reduce((prev, curr) => prev + curr, 0);
             
         return (
-            <Flex justifyContent={{default:"justifyContentFlexStart"}} alignItems={{default:"alignItemsFlexStart"}}>
-                <FlexItem>
-                    <Card>
-                        <CardTitle>Item Sales Totals</CardTitle>
-                        <CardBody>
-                            <div style={{  width: '350px'}}>
-                                <ChartDonut
-                                ariaDesc="Relative Item Sales"
-                                ariaTitle="Relative Item Sales"
-                                constrainToVisibleArea={true}
-                                data={[{ x: 'Coffee', y: coffeeSum }, { x: 'Espresso', y: espressoSum }, { x: 'Food', y: foodSum }]}
-                                labels={({ datum }) => `${datum.x}: ${datum.y}`}
-                                legendData={legendData}
-                                legendOrientation="vertical"
-                                legendPosition="right"
-                                padding={{
-                                    bottom: 0,
-                                    left: 5,
-                                    right: 120, // Adjusted to accommodate legend
-                                    top: 0
-                                }}
-                                subTitle="Last Week"
-                                title={coffeeSum + espressoSum + foodSum}
-                                themeColor={ChartThemeColor.multiOrdered}
-                                width={350}
-                                />
-                            </div>
-                        </CardBody>
-                    </Card>
-                </FlexItem>
-                <FlexItem>
                     <Card>
                     <CardTitle>Item Sales Trends</CardTitle>
                         <CardBody>
@@ -187,10 +162,6 @@ export class ItemSummaryChart extends React.Component {
                             </Chart>
                         </CardBody>
                     </Card>
-
-
-                </FlexItem>
-            </Flex>    
         );
       }
     }

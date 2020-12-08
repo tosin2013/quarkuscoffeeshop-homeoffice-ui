@@ -4,8 +4,6 @@ import {
     Card,
     CardBody,
     CardTitle,
-    Flex,
-    FlexItem,
     DataList,
     DataListItem,
     DataListItemRow,
@@ -75,45 +73,40 @@ export class AverageOrderTimeChart extends React.Component {
         const averageOrderUpTime = this.state.averageOrderUpTime;
 
         const BasicRightAlignedLegend = (
-            <Flex>
-                <FlexItem>
-                    <Card isHoverable>
-                        <CardTitle>Average OrderUp Time: {parseInt(averageOrderUpTime / 60)} minutes {averageOrderUpTime % 60} seconds</CardTitle>
-                        <CardBody>
-                            <div style={{ height: '172px', width: '500px' }}>
-                                <ChartBullet
-                                ariaDesc="Storage capacity"
-                                ariaTitle="Average OrderUp Time"
-                                comparativeWarningMeasureData={[{ name: 'Warning', y: 200 }]}
-                                comparativeErrorMeasureData={[{name: 'Terrible', y: 300}]}
-                                constrainToVisibleArea
-                                height={172}
-                                labels={({ datum }) => `${datum.name}: ${datum.y}`}
-                                maxDomain={{y: 360}}
-                                primarySegmentedMeasureData={[{ name: 'Measure', y: averageOrderUpTime }]}
-                                qualitativeRangeData={[{ name: 'Range', y: 200 }, { name: 'Range', y: 300 }]}
-                                width={500}
-                                />
-                        </div>
-                        <DataList aria-label="Objectives" isCompact="true">
-                            <DataListItem aria-labelledby="simple-item1">
-                            <DataListItemRow>
-                                <DataListItemCells
-                                dataListCells={[
-                                    <DataListCell key="primary content">
-                                    <span id="simple-item1">Excellent is under 4 minutes</span>
-                                    </DataListCell>,
-                                    <DataListCell key="secondary content">Objective is under 5 minutes</DataListCell>
-                                ]}
-                                />
-                            </DataListItemRow>
-                            </DataListItem>
-                        </DataList>
-                        </CardBody>
-                    </Card>
-                </FlexItem>
-
-            </Flex>
+            <Card isHoverable>
+                <CardTitle>Average OrderUp Time: {parseInt(averageOrderUpTime / 60)} minutes {averageOrderUpTime % 60} seconds</CardTitle>
+                <CardBody>
+                    <div style={{ height: '172px', width: '500px' }}>
+                        <ChartBullet
+                        ariaDesc="Storage capacity"
+                        ariaTitle="Average OrderUp Time"
+                        comparativeWarningMeasureData={[{ name: 'Warning', y: 200 }]}
+                        comparativeErrorMeasureData={[{name: 'Terrible', y: 300}]}
+                        constrainToVisibleArea
+                        height={172}
+                        labels={({ datum }) => `${datum.name}: ${datum.y}`}
+                        maxDomain={{y: 360}}
+                        primarySegmentedMeasureData={[{ name: 'Measure', y: averageOrderUpTime }]}
+                        qualitativeRangeData={[{ name: 'Range', y: ((parseInt(averageOrderUpTime/60)-1)*60) }, { name: 'Range', y: ((parseInt(averageOrderUpTime/60)+1)*60) }]}
+                        width={500}
+                        />
+                </div>
+                <DataList aria-label="Objectives" isCompact="true">
+                    <DataListItem aria-labelledby="simple-item1">
+                    <DataListItemRow>
+                        <DataListItemCells
+                        dataListCells={[
+                            <DataListCell key="primary content">
+                            <span id="simple-item1">Excellent is under {((parseInt(averageOrderUpTime/60)-1))} minutes</span>
+                            </DataListCell>,
+                            <DataListCell key="secondary content">Objective is under {parseInt(averageOrderUpTime / 60) + 1} minutes</DataListCell>
+                        ]}
+                        />
+                    </DataListItemRow>
+                    </DataListItem>
+                </DataList>
+                </CardBody>
+            </Card>
 
         ) 
         return BasicRightAlignedLegend;
