@@ -44,7 +44,7 @@ export class StoreSalesChart extends React.Component {
               store,
               sales{
                   item,
-                  sales,
+                  salesTotal,
                   revenue
               }
               }
@@ -94,7 +94,7 @@ export class StoreSalesChart extends React.Component {
             for (let index = 0; index < products.length; index++) {
                 const product = products[index];
                     //sum the sales and revenue
-                    const itemSales = storeItemSales.filter(i => i.item == product).reduce((prev, curr) => prev + curr.sales, 0);
+                    const itemSales = storeItemSales.filter(i => i.item == product).reduce((prev, curr) => prev + curr.salesTotal, 0);
                     const itemRevenue = storeItemSales.filter(i => i.item == product).reduce((prev, curr) => prev + curr.revenue, 0);
 
                     //add it to the chart data set

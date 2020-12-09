@@ -25,7 +25,7 @@ export class AverageOrderTimeChart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            averageOrderUpTime: 0
+            averageOrderUpTime: 60
           };
 
           const endingDate = new Date();

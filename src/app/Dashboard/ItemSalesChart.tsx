@@ -10,6 +10,7 @@ import {
    import {  
     ChartThemeColor,  
     ChartDonut, 
+    ChartLegend
 } from '@patternfly/react-charts';
 
 import { gql, useQuery } from '@apollo/client';
@@ -35,7 +36,7 @@ export class ItemSalesChart extends React.Component {
             itemSalesTotalsByDate (startDate: $startDate, endDate: $endDate) {
                 item,
                 revenue,
-                sales    
+                salesTotal    
             }
           }
           `;
@@ -62,7 +63,7 @@ export class ItemSalesChart extends React.Component {
         const data = this.state.data;
         let totalSales = 0;
         if (data !== undefined && data.length > 0){
-            totalSales = data.reduce((a, b) => a + (b["sales"] || 0), 0);
+            totalSales = data.reduce((a, b) => a + (b["salesTotal"] || 0), 0);
         }
 
         const BasicRightAlignedLegend = (
@@ -74,13 +75,16 @@ export class ItemSalesChart extends React.Component {
                             ariaTitle="Relative Item Sales"
                             data={data}
                             x={"item"}
-                            y={"sales"}
+                            y={"salesTotal"}
                             labels={({ datum }) => `${datum.item}: ${datum.sales}`}
                             legendData={data.map(i => {
                                 return {name: i.item}
                             })}
                             legendOrientation="vertical"
                             legendPosition="right"
+                            legendComponent={
+                                <ChartLegend style={{labels: {fontSize: 12}}}/>
+                              }
                             padding={{
                                 bottom: 0,
                                 left: 5,

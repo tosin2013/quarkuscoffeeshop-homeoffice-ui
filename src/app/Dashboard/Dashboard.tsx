@@ -68,10 +68,10 @@ export class Dashboard extends React.Component{
             </PageSection>
             <Divider component="div" />
             <PageSection variant={PageSectionVariants.default}>
-            <Flex justifyContent={{default:"justifyContentFlexStart"}} alignItems={{default:"alignItemsFlexStart"}}>
+            <Flex>
                 <FlexItem>
-                </FlexItem>
                   <ItemSalesChart />
+                </FlexItem>
                 <FlexItem>
                   <ItemSalesTrendsChart />
                 </FlexItem>
