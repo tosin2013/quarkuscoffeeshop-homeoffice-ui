@@ -46,7 +46,7 @@ export class ItemSalesChart extends React.Component {
               variables: {startDate: startDateString, endDate: endDateString}
             })
             .then(response => {
-                this.setState({data:response.data.itemSalesByDate})
+                this.setState({data:response.data.itemSalesTotalsByDate})
             }
           )
 
@@ -60,7 +60,10 @@ export class ItemSalesChart extends React.Component {
     render() {
         //get data from state
         const data = this.state.data;
-        const totalSales = data.reduce((a, b) => a + (b["sales"] || 0), 0);
+        let totalSales = 0;
+        if (data !== undefined && data.length > 0){
+            totalSales = data.reduce((a, b) => a + (b["sales"] || 0), 0);
+        }
 
         const BasicRightAlignedLegend = (
             <Card isHoverable>
