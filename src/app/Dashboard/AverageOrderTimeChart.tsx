@@ -28,12 +28,6 @@ export class AverageOrderTimeChart extends React.Component {
             averageOrderUpTime: 0
           };
 
-          this.baseStyles = { 
-            color: '#f0f0f0', 
-            fontFamily: 'RedHatText, Overpass, overpass, helvetica, arial, sans-serif',
-            fontSize: '14px'
-          };
-
           const endingDate = new Date();
           endingDate.setDate(endingDate.getDate() + 1);
           const endDateString = endingDate.toISOString().slice(0,10);
@@ -48,15 +42,13 @@ export class AverageOrderTimeChart extends React.Component {
           }
           `;
 
-          console.log("Making GraphQL Request")
+          //console.log("Making GraphQL Request")
           client.query({ 
               query: GET_AVERAGE_ORDER_TIME , 
               variables: {startDate: startDateString, endDate: endDateString}
             })
             .then(response => {
-                //console.log(response.data.storeServerSalesByDate);
-
-                console.log("Processing GraphQL Response")
+                //console.log("Processing GraphQL Response")
                 this.setState({averageOrderUpTime:response.data.averageOrderUpTime})
             }
           )

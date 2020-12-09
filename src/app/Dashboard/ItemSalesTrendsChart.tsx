@@ -36,7 +36,7 @@ query orders {
   }
 `;
 
-export class ItemSummaryChart extends React.Component {
+export class ItemSalesTrendsChart extends React.Component {
     constructor(props) {
         super(props);
         this.containerRef = React.createRef();
@@ -61,15 +61,9 @@ export class ItemSummaryChart extends React.Component {
       }
     
       render() {
-        //const { width } = this.state;
-        
-        //const { error, data } = useQuery(GET_ORDERS);
-
-        //if (error) return <p>An error occured!</p>;
         
         const CursorVoronoiContainer = createContainer("cursor", "voronoi");
         const legendData = [{ childName: 'coffee', name: 'Coffee' }, { childName: 'espresso', name: 'Espresso' }, { childName: 'food', name: 'Food' }];
-        
 
         const localData=[
             {item:"Coffee", x: 'Saturday', y: 28 },

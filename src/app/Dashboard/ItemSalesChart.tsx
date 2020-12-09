@@ -22,12 +22,6 @@ export class ItemSalesChart extends React.Component {
             data: []
           };
 
-          this.baseStyles = { 
-            color: '#f0f0f0', 
-            fontFamily: 'RedHatText, Overpass, overpass, helvetica, arial, sans-serif',
-            fontSize: '14px'
-          };
-
           const endingDate = new Date();
           endingDate.setDate(endingDate.getDate() + 1);
           const endDateString = endingDate.toISOString().slice(0,10);
@@ -37,8 +31,8 @@ export class ItemSalesChart extends React.Component {
           
   
           const GET_ITEM_SALES = gql`
-          query itemSalesByDate($startDate: String!, $endDate: String!){
-            itemSalesByDate (startDate: $startDate, endDate: $endDate) {
+          query itemSalesTotalsByDate($startDate: String!, $endDate: String!){
+            itemSalesTotalsByDate (startDate: $startDate, endDate: $endDate) {
                 item,
                 revenue,
                 sales    
@@ -46,7 +40,7 @@ export class ItemSalesChart extends React.Component {
           }
           `;
 
-          console.log("Making GraphQL Request")
+          //console.log("Making GraphQL Request")
           client.query({ 
               query: GET_ITEM_SALES , 
               variables: {startDate: startDateString, endDate: endDateString}

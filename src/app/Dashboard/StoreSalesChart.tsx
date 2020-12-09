@@ -20,19 +20,13 @@ import CaretDownIcon from '@patternfly/react-icons/dist/js/icons/caret-down-icon
 import { gql, useQuery } from '@apollo/client';
 import client from 'src/apolloclient.js'
 
-export class ServerComparisonChart extends React.Component {
+export class StoreSalesChart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             data: [],
             chartData: [],
             productLegend: []
-          };
-
-          this.baseStyles = { 
-            color: '#f0f0f0', 
-            fontFamily: 'RedHatText, Overpass, overpass, helvetica, arial, sans-serif',
-            fontSize: '14px'
           };
 
           const endingDate = new Date();
@@ -57,17 +51,13 @@ export class ServerComparisonChart extends React.Component {
           }
           `;
 
-          console.log("Making GraphQL Request")
+          //console.log("Making GraphQL Request")
           client.query({ 
               query: GET_STORESALES , 
               variables: {startDate: startDateString, endDate: endDateString}
             })
             .then(response => {
-                //console.log(response.data.storeServerSalesByDate);
-
-                console.log("Processing GraphQL Response")
                 this.ProcessGraphqlData(response.data.storeServerSalesByDate)
-                
             }
           )
 
@@ -131,11 +121,11 @@ export class ServerComparisonChart extends React.Component {
 
         const BasicRightAlignedLegend = (
                     <Card style={{ height: '300px', width: '500px' }}>
-                        <CardTitle>Store and Server Sales</CardTitle>
+                        <CardTitle>Store Sales</CardTitle>
                         <CardBody>
                             <Chart
-                                ariaDesc="Store and Server Sales"
-                                ariaTitle="Store and Server Sales"
+                                ariaDesc="Store Sales"
+                                ariaTitle="Store Sales"
                                 containerComponent={
                                 <ChartVoronoiContainer 
                                     labels={({ datum }) => `${datum.name}: ${JSON.stringify(datum.tooltip)}`} 
@@ -162,7 +152,6 @@ export class ServerComparisonChart extends React.Component {
 
                                     themeColor={ChartThemeColor.multiOrdered}
                                     domainPadding={{ x: [30, 25] }}
-                                    //legendData={[{ name: 'Coffee' }, { name: 'Espresso' }, { name: 'Food' }]}
                                     legendData={productLegend}
                                     legendOrientation="vertical"
                                     legendPosition="right"

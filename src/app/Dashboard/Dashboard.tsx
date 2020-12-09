@@ -20,8 +20,8 @@ import {
 } from '@patternfly/react-icons';
 
 import { ItemSalesChart } from './ItemSalesChart';
-import { ItemSummaryChart } from './ItemSummaryChart';
-import { ServerComparisonChart } from './ServerComparisonChart'
+import { ItemSalesTrendsChart } from './ItemSalesTrendsChart';
+import { StoreSalesChart } from './StoreSalesChart'
 import { AverageOrderTimeChart } from './AverageOrderTimeChart'
 
 export class Dashboard extends React.Component{
@@ -57,7 +57,7 @@ export class Dashboard extends React.Component{
             <Flex>
             
                 <FlexItem>
-                  <ServerComparisonChart />
+                  <StoreSalesChart />
                 </FlexItem>
 
                 <FlexItem>
@@ -73,7 +73,7 @@ export class Dashboard extends React.Component{
                 </FlexItem>
                   <ItemSalesChart />
                 <FlexItem>
-                  <ItemSummaryChart />
+                  <ItemSalesTrendsChart />
                 </FlexItem>
             </Flex>
             </PageSection>
