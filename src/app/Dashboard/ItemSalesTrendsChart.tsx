@@ -28,16 +28,16 @@ export class ItemSalesTrendsChart extends React.Component {
         };
 
         const endingDate = new Date();
-        endingDate.setDate(endingDate.getDate() + 1);
+        endingDate.setDate(endingDate.getDate());
         const endDateString = endingDate.toISOString().slice(0,10);
 
-        endingDate.setDate(endingDate.getDate() - 7);
+        endingDate.setDate(endingDate.getDate() - 6);
         const startDateString = endingDate.toISOString().slice(0,10);
         
 
         const GET_PRODUCT_SALES = gql`
-        query productSalesByDate {
-          productSalesByDate (startDate:"2020-12-03", endDate:"2020-12-09") {
+        query productSalesByDate($startDate: String!, $endDate: String!){
+          productSalesByDate (startDate: $startDate, endDate: $endDate) {
             item,
             sales{
               item,
@@ -93,7 +93,7 @@ export class ItemSalesTrendsChart extends React.Component {
                                 padding={{
                                 bottom: 75, // Adjusted to accomodate legend
                                 left: 50,
-                                right: 30,
+                                right: 40,
                                 top: 0,
                                 }}
                                 //maxDomain={{y: 50}}

@@ -30,10 +30,10 @@ export class StoreSalesChart extends React.Component {
           };
 
           const endingDate = new Date();
-          endingDate.setDate(endingDate.getDate() + 1);
+          endingDate.setDate(endingDate.getDate());
           const endDateString = endingDate.toISOString().slice(0,10);
   
-          endingDate.setDate(endingDate.getDate() - 7);
+          endingDate.setDate(endingDate.getDate() - 6);
           const startDateString = endingDate.toISOString().slice(0,10);
           
   
@@ -74,7 +74,7 @@ export class StoreSalesChart extends React.Component {
         const allItemSales = flatten(data.map(server => server.sales));
 
         //calculate a unique list of products
-        const products = Array.from(new Set(allItemSales.map(i => i.item)));
+        const products = Array.from(new Set(allItemSales.map(i => i.item))).sort();
 
         const productLegend = new Array();
         products.forEach(product => {
@@ -98,7 +98,7 @@ export class StoreSalesChart extends React.Component {
                     const itemRevenue = storeItemSales.filter(i => i.item == product).reduce((prev, curr) => prev + curr.revenue, 0);
 
                     //add it to the chart data set
-                    chartData[index].push({name: product, x: store, y: itemSales, tooltip: "Revenue: " + itemRevenue});            
+                    chartData[index].push({name: product, x: store, y: itemSales, revenue: itemRevenue});            
                 
             }
 
@@ -128,27 +128,10 @@ export class StoreSalesChart extends React.Component {
                                 ariaTitle="Store Sales"
                                 containerComponent={
                                 <ChartVoronoiContainer 
-                                    labels={({ datum }) => `${datum.name}: ${JSON.stringify(datum.tooltip)}`} 
+                                    labels={({ datum }) => `${datum.name}: ${datum.y}`} 
                                     constrainToVisibleArea
                                     disable
                                 />}
-/*
-                                    labels={({ datum }) => `${datum.name}: ${datum.y}`} 
-
-                                containerComponent={<ChartVoronoiContainer 
-                                    labels={({ datum }) => `${datum.name}: ${JSON.stringify(datum.tooltip)}`} 
-                                    labelComponent={
-                                        <ChartCursorTooltip
-                                          centerOffset={{x: ({ center, flyoutWidth, width, offset = flyoutWidth / 2 + 10 }) => width > center.x + flyoutWidth + 10 ? offset : -offset}}
-                                          flyout={<ChartCursorFlyout />}
-                                          flyoutHeight={110}
-                                          flyoutWidth={125}
-                                          labelComponent={<HtmlLegendContent legendData={(datum) => datum.tooltip} title={(datum) => datum.server} />}
-                                        />
-                                      }
-                                      mouseFollowTooltips
-                                    constrainToVisibleArea />}
-*/
 
                                     themeColor={ChartThemeColor.multiOrdered}
                                     domainPadding={{ x: [30, 25] }}

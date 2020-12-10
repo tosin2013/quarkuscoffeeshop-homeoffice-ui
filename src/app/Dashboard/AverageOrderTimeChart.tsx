@@ -29,10 +29,10 @@ export class AverageOrderTimeChart extends React.Component {
           };
 
           const endingDate = new Date();
-          endingDate.setDate(endingDate.getDate() + 1);
+          endingDate.setDate(endingDate.getDate());
           const endDateString = endingDate.toISOString().slice(0,10);
   
-          endingDate.setDate(endingDate.getDate() - 7);
+          endingDate.setDate(endingDate.getDate() - 6);
           const startDateString = endingDate.toISOString().slice(0,10);
           
   

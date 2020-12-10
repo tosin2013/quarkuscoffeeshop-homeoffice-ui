@@ -24,10 +24,10 @@ export class ItemSalesChart extends React.Component {
           };
 
           const endingDate = new Date();
-          endingDate.setDate(endingDate.getDate() + 1);
+          endingDate.setDate(endingDate.getDate());
           const endDateString = endingDate.toISOString().slice(0,10);
   
-          endingDate.setDate(endingDate.getDate() - 7);
+          endingDate.setDate(endingDate.getDate() - 6);
           const startDateString = endingDate.toISOString().slice(0,10);
           
   
@@ -76,7 +76,7 @@ export class ItemSalesChart extends React.Component {
                             data={data}
                             x={"item"}
                             y={"salesTotal"}
-                            labels={({ datum }) => `${datum.item}: ${datum.sales}`}
+                            labels={({ datum }) => `${datum.item}: ${datum.salesTotal}`}
                             legendData={data.map(i => {
                                 return {name: i.item}
                             })}
@@ -88,7 +88,7 @@ export class ItemSalesChart extends React.Component {
                             padding={{
                                 bottom: 0,
                                 left: 5,
-                                right: 120, // Adjusted to accommodate legend
+                                right: 150, // Adjusted to accommodate legend
                                 top: 0
                             }}
                             subTitle="Last 7 Days"
