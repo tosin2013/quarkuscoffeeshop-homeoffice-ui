@@ -2,9 +2,9 @@ import { ApolloClient } from 'apollo-client'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { HttpLink } from 'apollo-link-http'
 
-const graphqlEndpoint = process.env.GRAPHQL_ENDPOINT || 'http://0.0.0.0:8080/graphql';
+const graphqlEndpoint = process.env.REACT_APP_GRAPHQL_ENDPOINT || 'http://0.0.0.0:8080/graphql';
 console.log("GraphQL Endpoint: " + graphqlEndpoint);
-console.log("GraphQL Environment: " + process.env.GRAPHQL_ENDPOINT);
+console.log("GraphQL Environment: " + process.env.REACT_APP_GRAPHQL_ENDPOINT);
 
 const link = new HttpLink({ uri: graphqlEndpoint })
 const cache = new InMemoryCache()
