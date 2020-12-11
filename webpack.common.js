@@ -127,6 +127,9 @@ module.exports = env => {
         patterns: [
           { from: './src/app/favicon.ico', to: 'images' },
         ]
+      }),
+      new webpack.DefinePlugin({ 
+        'process.env.REACT_APP_GRAPHQL_ENDPOINT': JSON.stringify(process.env.REACT_APP_GRAPHQL_ENDPOINT) 
       })
     ],
     resolve: {
