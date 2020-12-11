@@ -12,6 +12,8 @@ import {
     Label,
     Flex,
     FlexItem,
+    Level,
+    LevelItem
    } from '@patternfly/react-core';
 
 import { 
@@ -23,6 +25,7 @@ import { ItemSalesChart } from './ItemSalesChart';
 import { ItemSalesTrendsChart } from './ItemSalesTrendsChart';
 import { StoreSalesChart } from './StoreSalesChart'
 import { AverageOrderTimeChart } from './AverageOrderTimeChart'
+import { MockerSwitch } from './MockerSwitch'
 
 export class Dashboard extends React.Component{
     constructor(props) {
@@ -34,20 +37,23 @@ export class Dashboard extends React.Component{
             <React.Fragment>
             <PageSection variant={PageSectionVariants.light}>
 
-            <Stack hasGutter>
-              <StackItem>
+            <Level hasGutter>
+              <LevelItem>
                 <TextContent>
                   <Text component="h1">Dashboard</Text>
                 </TextContent>
-              </StackItem>
-              <StackItem>
+              </LevelItem>
+              <LevelItem>
                 <LabelGroup categoryName="Key Metrics">
                   <Label icon={<CheckCircleIcon />} color="green">OrderUp</Label>
                   <Label icon={<CheckCircleIcon />} color="green">Sales</Label>
                   <Label icon={<CheckCircleIcon />} color="green">Inventory</Label>
                 </LabelGroup>
-              </StackItem>
-            </Stack>
+              </LevelItem>
+              <LevelItem>
+                <MockerSwitch />
+              </LevelItem>
+            </Level>
 
 
 

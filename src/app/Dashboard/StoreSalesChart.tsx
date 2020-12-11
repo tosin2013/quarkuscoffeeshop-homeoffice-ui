@@ -54,7 +54,7 @@ export class StoreSalesChart extends React.Component {
           //console.log("Making GraphQL Request")
           client.query({ 
               query: GET_STORESALES , 
-              variables: {startDate: startDateString, endDate: endDateString}
+              variables: {startDate: startDateString, endDate: endDateString},
             })
             .then(response => {
                 this.ProcessGraphqlData(response.data.storeServerSalesByDate)
