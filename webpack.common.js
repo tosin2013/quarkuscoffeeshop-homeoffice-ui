@@ -5,6 +5,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const BG_IMAGES_DIRNAME = 'bgimages';
 const ASSET_PATH = process.env.ASSET_PATH || '/';
+const webpack = require('webpack');
 module.exports = env => {
 
   return {
@@ -128,9 +129,7 @@ module.exports = env => {
           { from: './src/app/favicon.ico', to: 'images' },
         ]
       }),
-      new webpack.DefinePlugin({ 
-        'process.env.REACT_APP_GRAPHQL_ENDPOINT': JSON.stringify(process.env.REACT_APP_GRAPHQL_ENDPOINT) 
-      })
+      new webpack.EnvironmentPlugin(['REACT_APP_GRAPHQL_ENDPOINT'])
     ],
     resolve: {
       extensions: ['.js', '.ts', '.tsx', '.jsx'],
