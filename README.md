@@ -1,23 +1,5 @@
-# quarkuscoffeeshop-homeoffice-ui
-
-This project requires a backend GraphQL service that provides the data we display. This must be configured with the environment variable GRAPHQL_ENDPOINT. If not set, it will default to 'http://0.0.0.0:8080/graphql' for development purposes.
-
-        npm install
-
-        npm run start:dev
-
-# Deployment to OpenShift
--n  is the namespace/project
-
-        oc new-app \
-        -n dotnet-cafe-demo \
-        --name=quarkuscoffeeshop-homeoffice-ui nodejs:latest~https://github.com/quarkuscoffeeshop/quarkuscoffeeshop-homeoffice-ui.git
-
-        oc expose svc/quarkuscoffeeshop-homeoffice-ui
-
-
-
 #Full Stack Deployment on OpenShift
+
 
 oc new-project quarkuscoffeeshop-homeoffice
 
@@ -42,7 +24,7 @@ oc expose svc/quarkuscoffeeshop-homeoffice-backend
 oc new-app \
 -n quarkuscoffeeshop-homeoffice \
 --name=quarkuscoffeeshop-homeoffice-ui nodejs:latest~https://github.com/quarkuscoffeeshop/quarkuscoffeeshop-homeoffice-ui.git \
--e GRAPHQL_ENDPOINT=http://homeoffice-backend:8080/graphql
+--build-env=REACT_APP_GRAPHQL_ENDPOINT=http://$(oc get routes -o json | jq -r '.items[0].spec.host' | grep backend)/graphql
 
 oc expose svc/quarkuscoffeeshop-homeoffice-ui
 
