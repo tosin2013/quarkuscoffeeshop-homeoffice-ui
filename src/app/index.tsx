@@ -10,10 +10,11 @@ import client from 'src/apolloclient.js'
 
 const App: React.FunctionComponent = () => (
   <Router>
-    <ApolloProvider client={client} />
-    <AppLayout>
-      <AppRoutes />
-    </AppLayout>
+    <ApolloProvider client={client} >
+      <AppLayout>
+        <AppRoutes />
+      </AppLayout>
+    </ApolloProvider>
   </Router>
 );
 

@@ -9,7 +9,11 @@ import {
     Stack, 
     StackItem,
     LabelGroup,
-    Label
+    Label,
+    Flex,
+    FlexItem,
+    Level,
+    LevelItem
    } from '@patternfly/react-core';
 
 import { 
@@ -17,8 +21,11 @@ import {
   InfoCircleIcon
 } from '@patternfly/react-icons';
 
-import { ItemSummaryChart } from './ItemSummaryChart';
-import { ServerComparisonChart } from './ServerComparisonChart'
+import { ItemSalesChart } from './ItemSalesChart';
+import { ItemSalesTrendsChart } from './ItemSalesTrendsChart';
+import { StoreSalesChart } from './StoreSalesChart'
+import { AverageOrderTimeChart } from './AverageOrderTimeChart'
+import { MockerSwitch } from './MockerSwitch'
 
 export class Dashboard extends React.Component{
     constructor(props) {
@@ -30,31 +37,51 @@ export class Dashboard extends React.Component{
             <React.Fragment>
             <PageSection variant={PageSectionVariants.light}>
 
-            <Stack hasGutter>
-              <StackItem>
+            <Level hasGutter>
+              <LevelItem>
                 <TextContent>
                   <Text component="h1">Dashboard</Text>
                 </TextContent>
-              </StackItem>
-              <StackItem>
+              </LevelItem>
+              <LevelItem>
                 <LabelGroup categoryName="Key Metrics">
                   <Label icon={<CheckCircleIcon />} color="green">OrderUp</Label>
                   <Label icon={<CheckCircleIcon />} color="green">Sales</Label>
                   <Label icon={<CheckCircleIcon />} color="green">Inventory</Label>
                 </LabelGroup>
-              </StackItem>
-            </Stack>
+              </LevelItem>
+              <LevelItem>
+                <MockerSwitch />
+              </LevelItem>
+            </Level>
 
 
 
             </PageSection>
             <Divider component="div" />
             <PageSection variant={PageSectionVariants.default}>
-              <ServerComparisonChart />
+            <Flex>
+            
+                <FlexItem>
+                  <StoreSalesChart />
+                </FlexItem>
+
+                <FlexItem>
+                  <AverageOrderTimeChart />
+                </FlexItem>
+
+            </Flex>
             </PageSection>
             <Divider component="div" />
             <PageSection variant={PageSectionVariants.default}>
-              <ItemSummaryChart />
+            <Flex>
+                <FlexItem>
+                  <ItemSalesChart />
+                </FlexItem>
+                <FlexItem>
+                  <ItemSalesTrendsChart />
+                </FlexItem>
+            </Flex>
             </PageSection>
         </React.Fragment>     
         )
