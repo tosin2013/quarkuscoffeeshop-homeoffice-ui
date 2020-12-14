@@ -1,12 +1,6 @@
-<<<<<<< HEAD
-# quarkuscoffeeshop-homeoffice-ui
-Testing trigger
-npm install
-=======
 #Full Stack Deployment on OpenShift
 
         oc new-project quarkuscoffeeshop-homeoffice
->>>>>>> e096e39ffca2e77ea5601e021ab77f0e6a1909a9
 
         oc new-app \
         -n quarkuscoffeeshop-homeoffice \
@@ -41,14 +35,4 @@ npm install
 
         oc label deployment -l app=homeoffice-backend app.kubernetes.io/name=quarkus
 
-<<<<<<< HEAD
-        oc expose svc/quarkuscoffeeshop-homeoffice-ui
-test1
-test2
-testing
-testing1
-testing2
-testing3
-=======
         oc label deployment -l app=homeoffice-ui app.kubernetes.io/name=nodejs
->>>>>>> e096e39ffca2e77ea5601e021ab77f0e6a1909a9
